@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import easydbtester.util.ConnectionUtil;
+
 /**
  * Session Bean implementation class GeneralDao
  */
@@ -30,8 +32,7 @@ public class GeneralDao {
 				cnt++;
 			}
 		} finally {
-			rs.close();
-			ps.close();
+			ConnectionUtil.close(null, ps, rs);
 		}
 		return cnt;
 	}
@@ -47,8 +48,7 @@ public class GeneralDao {
 				cnt++;
 			}
 		} finally {
-			ps.close();
-			rs.close();
+			ConnectionUtil.close(null, ps, rs);
 		}
 		return cnt;
 	}
@@ -61,7 +61,7 @@ public class GeneralDao {
 			ps.setLong(1, userId);
 			ret = ps.executeUpdate();
 		} finally {
-			ps.close();
+			ConnectionUtil.close(null, ps, null);
 		}
 		return ret;
 	}
@@ -73,7 +73,7 @@ public class GeneralDao {
 			ps = conn.prepareStatement(sql);
 			ret = ps.executeUpdate();
 		} finally {
-			ps.close();
+			ConnectionUtil.close(null, ps, null);
 		}
 		return ret;
 	}
