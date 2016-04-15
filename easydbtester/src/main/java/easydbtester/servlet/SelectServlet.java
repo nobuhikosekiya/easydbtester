@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import easydbtester.dao.GeneralDao;
@@ -72,14 +71,6 @@ public class SelectServlet extends HttpServlet {
 		if (loopStr != null) {
 			loop = Integer.parseInt(loopStr);
 			out.println("loop: " + loopStr);
-		}
-		
-		out.println("session id is valid? " + request.isRequestedSessionIdValid());
-		HttpSession session = request.getSession(true);
-		if (session.isNew()) {
-			out.println("session is new");
-		} else {
-			out.println("session id: " + session.getId());
 		}
 		
 		GeneralDao dao = new GeneralDao();
