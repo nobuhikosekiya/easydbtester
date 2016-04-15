@@ -5,17 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-
-import com.example.querygeneral.util.TimeRecSingleton;
-import com.example.utils.db.ConnectionUtil;
-
 /**
  * Session Bean implementation class GeneralDao
  */
-@Stateless
-@LocalBean
 public class GeneralDao {
 
 	/**
@@ -31,17 +23,15 @@ public class GeneralDao {
 		ResultSet rs = null;
 		long cnt = 0;
 		try {
-			long start = System.currentTimeMillis();
 			ps = conn.prepareStatement(sql);
 			ps.setLong(1, userId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				cnt++;
 			}
-			long end = System.currentTimeMillis();
-			TimeRecSingleton.getInstance().addTime(end - start);
 		} finally {
-			ConnectionUtil.close(null, ps, rs);
+			rs.close();
+			ps.close();
 		}
 		return cnt;
 	}
@@ -51,16 +41,14 @@ public class GeneralDao {
 		ResultSet rs = null;
 		long cnt = 0;
 		try {
-			long start = System.currentTimeMillis();
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				cnt++;
 			}
-			long end = System.currentTimeMillis();
-			TimeRecSingleton.getInstance().addTime(end - start);
 		} finally {
-			ConnectionUtil.close(null, ps, rs);
+			ps.close();
+			rs.close();
 		}
 		return cnt;
 	}
@@ -69,14 +57,11 @@ public class GeneralDao {
 		PreparedStatement ps = null;
 		int ret = 0;
 		try {
-			long start = System.currentTimeMillis();
 			ps = conn.prepareStatement(sql);
 			ps.setLong(1, userId);
 			ret = ps.executeUpdate();
-			long end = System.currentTimeMillis();
-			TimeRecSingleton.getInstance().addTime(end - start);
 		} finally {
-			ConnectionUtil.close(null, ps, null);
+			ps.close();
 		}
 		return ret;
 	}
@@ -85,13 +70,10 @@ public class GeneralDao {
 		PreparedStatement ps = null;
 		int ret = 0;
 		try {
-			long start = System.currentTimeMillis();
 			ps = conn.prepareStatement(sql);
 			ret = ps.executeUpdate();
-			long end = System.currentTimeMillis();
-			TimeRecSingleton.getInstance().addTime(end - start);
 		} finally {
-			ConnectionUtil.close(null, ps, null);
+			ps.close();
 		}
 		return ret;
 	}
